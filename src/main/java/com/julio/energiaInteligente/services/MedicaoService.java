@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.julio.energiaInteligente.domain.Medicao;
@@ -14,6 +15,9 @@ import com.julio.energiaInteligente.services.exceptions.ObjectNotFoundException;
 @Service
 public class MedicaoService {
 
+	@Autowired
+	private BCryptPasswordEncoder pe;
+	
 	@Autowired
 	private MedicaoRepository repo;
 	
@@ -30,10 +34,11 @@ public class MedicaoService {
 		obj.setId(null);
 		obj.setHorario(new Date());
 		
+		
 		String tokenEnviada = obj.getCircuito().getToken();
 		obj.setCircuito(circuitoService.find(obj.getCircuito().getId()));
 		
-		if (!tokenEnviada.equals(obj.getCircuito().getToken())) {
+		if (!pe.matches(tokenEnviada, obj.getCircuito().getToken())) {
 	        throw new AuthorizationException("Acesso negado");
 	    }
 		
