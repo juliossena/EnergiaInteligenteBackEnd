@@ -40,12 +40,10 @@ public class Usuario implements Serializable {
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
-	
+
 	public Usuario() {
-		
+
 	}
-	
-	
 
 	public Usuario(Integer id, String nome, String email, String senha, String celular, String cpf) {
 		super();
@@ -57,8 +55,6 @@ public class Usuario implements Serializable {
 		this.cpf = cpf;
 		addPerfil(Perfil.CLIENTE);
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -114,6 +110,10 @@ public class Usuario implements Serializable {
 
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
+	}
+	
+	public void addCircuito(Circuito circuito) {
+		this.circuito.add(circuito);
 	}
 
 	public List<Circuito> getCircuito() {

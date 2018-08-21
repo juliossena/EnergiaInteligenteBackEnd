@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Circuito implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -22,6 +24,7 @@ public class Circuito implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "CircuitoUsuario", joinColumns = @JoinColumn(name = "circuito_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private List<Usuario> usuario = new ArrayList<>();
@@ -34,11 +37,27 @@ public class Circuito implements Serializable {
 	@JoinColumn(name = "configuracao_id")
 	private ConfiguracaoCircuito configuracaoCircuito;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "circuito")
 	private List<Medicao> medicoes = new ArrayList<>();
 
 	@OneToMany(mappedBy = "circuito")
 	private List<Programacao> programacoes = new ArrayList<>();
+
+	public Circuito() {
+
+	}
+
+	public Circuito(Integer id, Usuario usuario, String token, String nome, Boolean ligado,
+			ConfiguracaoCircuito configuracaoCircuito) {
+		super();
+		this.id = id;
+		this.usuario.add(usuario);
+		this.token = token;
+		this.nome = nome;
+		this.ligado = ligado;
+		this.configuracaoCircuito = configuracaoCircuito;
+	}
 
 	public List<Usuario> getUsuario() {
 		return usuario;
@@ -46,6 +65,10 @@ public class Circuito implements Serializable {
 
 	public void setUsuario(List<Usuario> usuario) {
 		this.usuario = usuario;
+	}
+	
+	public void addUsuario(Usuario usuario) {
+		this.usuario.add(usuario);
 	}
 
 	public Integer getId() {

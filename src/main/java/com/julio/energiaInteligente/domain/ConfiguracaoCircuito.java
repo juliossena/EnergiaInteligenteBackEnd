@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ConfiguracaoCircuito implements Serializable {
+public class ConfiguracaoCircuito implements Serializable { 
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -17,7 +17,20 @@ public class ConfiguracaoCircuito implements Serializable {
 	private String ssid;
 	private String senhaSsid;
 	private Integer tempoAtualizacao;
-	private Float custoPorW;
+	private float custoPorW;
+
+	public ConfiguracaoCircuito() {
+
+	}
+
+	public ConfiguracaoCircuito(Integer id, String ssid, String senhaSsid, Integer tempoAtualizacao, float custoPorW) {
+		super();
+		this.id = id;
+		this.ssid = ssid;
+		this.senhaSsid = senhaSsid;
+		this.tempoAtualizacao = tempoAtualizacao;
+		this.custoPorW = custoPorW;
+	}
 
 	public Integer getId() {
 		return id;
@@ -51,11 +64,11 @@ public class ConfiguracaoCircuito implements Serializable {
 		this.tempoAtualizacao = tempoAtualizacao;
 	}
 
-	public Float getCustoPorW() {
+	public float getCustoPorW() {
 		return custoPorW;
 	}
 
-	public void setCustoPorW(Float custoPorW) {
+	public void setCustoPorW(float custoPorW) {
 		this.custoPorW = custoPorW;
 	}
 

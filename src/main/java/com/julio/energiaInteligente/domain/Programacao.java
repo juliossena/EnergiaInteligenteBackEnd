@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.julio.energiaInteligente.domain.enums.TipoProgramacao;
 
@@ -26,6 +27,7 @@ public class Programacao implements Serializable {
 	private Integer tipoProgramacao;
 	private String nome;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "circuito_id")
 	private Circuito circuito;

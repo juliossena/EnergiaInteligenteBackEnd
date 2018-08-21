@@ -1,6 +1,7 @@
 package com.julio.energiaInteligente.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -28,6 +29,13 @@ public class MedicaoResource {
 	public ResponseEntity<Medicao> find(@PathVariable Integer id) {
 		Medicao obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@RequestMapping(value = "last/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Medicao>> findLast(@PathVariable Integer id) {
+		List<Medicao> list = service.search(id);
+		return ResponseEntity.ok().body(list);
+
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
