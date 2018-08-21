@@ -33,7 +33,7 @@ public class MedicaoService {
 		String tokenEnviada = obj.getCircuito().getToken();
 		obj.setCircuito(circuitoService.find(obj.getCircuito().getId()));
 		
-		if (tokenEnviada.equals(obj.getCircuito().getToken())) {
+		if (!tokenEnviada.equals(obj.getCircuito().getToken())) {
 	        throw new AuthorizationException("Acesso negado");
 	    }
 		
