@@ -37,11 +37,10 @@ public class CircuitoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Circuito.class.getName()));
 	}
 
-	public Circuito insert(Circuito obj) {
+	public Circuito insert(Circuito obj, Integer idUsuario) {
 		obj.setId(null);
-		UserSS user = UserService.authenticated();
 
-		obj.setUsuario(usuarioService.find(user.getId()));
+		obj.setUsuario(usuarioService.find(idUsuario));
 		obj = repo.save(obj);
 		return obj;
 	}
