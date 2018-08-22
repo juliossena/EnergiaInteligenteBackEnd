@@ -1,6 +1,5 @@
 package com.julio.energiaInteligente.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ public class CircuitoService {
 
 	@Autowired
 	private CircuitoRepository repo;
-	
+
 	@Autowired
 	private MedicaoService medicaoService;
 
@@ -35,6 +34,13 @@ public class CircuitoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Circuito.class.getName()));
 	}
 
+	public Circuito insert(Circuito obj) {
+		obj.setId(null);
+
+		obj = repo.save(obj);
+		return obj;
+	}
+
 	public List<Circuito> findAll() {
 		UserSS user = UserService.authenticated();
 
@@ -45,8 +51,8 @@ public class CircuitoService {
 
 	public List<Circuito> findAllMedicoes() {
 		List<Circuito> circuitos = findAll();
-		
-		for(Circuito circuito: circuitos) {
+
+		for (Circuito circuito : circuitos) {
 			circuito.setMedicoes(medicaoService.search(circuito.getId()));
 		}
 

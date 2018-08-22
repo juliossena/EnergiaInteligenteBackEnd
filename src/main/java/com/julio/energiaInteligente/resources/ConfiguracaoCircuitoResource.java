@@ -7,7 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +20,7 @@ import com.julio.energiaInteligente.services.CircuitoService;
 
 @RestController
 @RequestMapping(value = "/circuito")
-public class CircuitoResource {
+public class ConfiguracaoCircuitoResource {
 
 	@Autowired
 	private CircuitoService service;
@@ -29,14 +28,6 @@ public class CircuitoResource {
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<List<Circuito>> find() {
 		List<Circuito> obj = service.findAll();
-		return ResponseEntity.ok().body(obj);
-	}
-	
-	@PreAuthorize("hasAnyRole('ADMIN')")
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Circuito> insert(@Valid @RequestBody Circuito obj) {
-		obj = service.insert(obj);
-		
 		return ResponseEntity.ok().body(obj);
 	}
 	

@@ -40,7 +40,6 @@ public class MedicaoService {
 					return el;
 				})
 				.collect(Collectors.toList());
-				
 	}
 
 	public Medicao insert(Medicao obj) {
