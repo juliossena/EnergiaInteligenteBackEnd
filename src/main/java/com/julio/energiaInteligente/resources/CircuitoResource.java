@@ -1,5 +1,6 @@
 package com.julio.energiaInteligente.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.dto.CircuitoDTO;
+import com.julio.energiaInteligente.response.CircuitoResponse;
 import com.julio.energiaInteligente.services.CircuitoService;
 
 
@@ -30,9 +32,13 @@ public class CircuitoResource {
 	}
 	
 	@RequestMapping(value = "/medicoes", method = RequestMethod.GET)
-	public ResponseEntity<List<Circuito>> findAllMedicoesUser() {
+	public ResponseEntity<List<CircuitoResponse>> findAllMedicoesUser() {
 		List<Circuito> obj = service.findAllMedicoes();
-		return ResponseEntity.ok().body(obj);
+		List<CircuitoResponse> objResponse = new ArrayList<>();
+		for(Circuito circuito: obj) {
+			objResponse.add(new CircuitoResponse(circuito));
+		}
+		return ResponseEntity.ok().body(objResponse);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
