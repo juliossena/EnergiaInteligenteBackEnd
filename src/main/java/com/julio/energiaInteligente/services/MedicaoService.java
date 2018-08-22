@@ -34,7 +34,7 @@ public class MedicaoService {
 	}
 
 	public List<Medicao> search(Integer id) {
-		return repo.findFirst5ByCircuito_idOrderByHorarioDesc(id).stream()
+		return repo.findFirst1ByCircuito_idOrderByHorarioDesc(id).stream()
 				.map((el) -> {
 					el.setCircuito(null);
 					return el;
