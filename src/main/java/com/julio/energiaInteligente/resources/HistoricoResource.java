@@ -27,14 +27,14 @@ public class HistoricoResource {
 	private MedicaoService medicaoService;
 	
 	@RequestMapping(value = "inicio={dataInicial}&final={dataFinal}", method = RequestMethod.GET)
-	public ResponseEntity<List<HistoricoResponse>> find(@PathVariable Date dataInicial, @PathVariable Date dataFinal) {
+	public ResponseEntity<List<HistoricoResponse>> find(@PathVariable Long dataInicial, @PathVariable Long dataFinal) {
 		List<HistoricoResponse> retorno = new ArrayList<>();
 		
 		List<Circuito> obj = circuitoService.findAll();
 		
 		for(Circuito circuito: obj) {
 			HistoricoResponse historicoResponse = new HistoricoResponse();
-			historicoResponse.setConsumoPico(medicaoService.findPico(dataInicial, dataFinal, circuito.getId()));
+			historicoResponse.setConsumoPico(medicaoService.findPico(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
 			
 			retorno.add(historicoResponse);
 		}
