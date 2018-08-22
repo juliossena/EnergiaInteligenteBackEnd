@@ -29,6 +29,12 @@ public class CircuitoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@RequestMapping(value = "medicoes/", method = RequestMethod.GET)
+	public ResponseEntity<List<Circuito>> findAllMedicoesUser() {
+		List<Circuito> obj = service.findAllMedicoes();
+		return ResponseEntity.ok().body(obj);
+	}
+	
 	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<CircuitoDTO> update(@Valid @RequestBody CircuitoDTO objDto) {
 		Circuito obj = service.fromDTO(objDto);
