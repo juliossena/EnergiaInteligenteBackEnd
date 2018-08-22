@@ -22,6 +22,19 @@ public class ConfiguracaoCircuitoService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Circuito.class.getName()));
 	}
+	
+	public ConfiguracaoCircuito update(ConfiguracaoCircuito obj) {
+		ConfiguracaoCircuito newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
+	}
+	
+	private void updateData(ConfiguracaoCircuito newObj, ConfiguracaoCircuito obj) {
+		newObj.setCustoPorW(obj.getCustoPorW());
+		newObj.setSenhaSsid(obj.getSenhaSsid());
+		newObj.setSsid(obj.getSsid());
+		newObj.setTempoAtualizacao(obj.getTempoAtualizacao());
+	}
 
 
 }
