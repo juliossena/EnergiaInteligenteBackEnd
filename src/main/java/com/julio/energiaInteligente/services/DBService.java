@@ -30,7 +30,7 @@ public class DBService {
 	private ConfiguracaoCircuitoRepository configuracaoCircuitoRepository;
 
 	public void instantiateTestDatabase() throws ParseException {
-		Usuario user = new Usuario(null, "julio", "juliosouzasena@gmail.com", pe.encode("123"), "321", "101.265.196-76");
+		Usuario user = new Usuario(null, "julio", "juliosouzasefna@gmail.com", pe.encode("123"), "321", "101.265.196-76");
 		ConfiguracaoCircuito confCir = new ConfiguracaoCircuito(null, "123", "123", 15, 5);
 		
 		Circuito circuito = new Circuito(null, user, pe.encode("haithaibiriou"), "circuito 1", true, confCir);

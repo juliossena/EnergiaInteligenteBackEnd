@@ -1,6 +1,5 @@
 package com.julio.energiaInteligente.resources;
 
-import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.domain.Medicao;
+import com.julio.energiaInteligente.services.CircuitoService;
 import com.julio.energiaInteligente.services.MedicaoService;
 
 
@@ -24,6 +24,9 @@ public class MedicaoResource {
 
 	@Autowired
 	private MedicaoService service;
+	
+	@Autowired
+	private CircuitoService circuitoService;
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Medicao> find(@PathVariable Integer id) {
@@ -39,12 +42,11 @@ public class MedicaoResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody Medicao obj) throws InterruptedException {
+	public ResponseEntity<Circuito> insert(@Valid @RequestBody Medicao obj) throws InterruptedException {
 		obj = service.insert(obj);
 		
-		Thread.sleep(obj.getCircuito().getConfiguracaoCircuito().getTempoAtualizacao() * 1000);
+		Circuito circuito = circuitoService.aguarda(obj);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-		return ResponseEntity.created(uri).build();
+		return ResponseEntity.ok().body(circuito);
 	}
 }

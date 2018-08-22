@@ -33,6 +33,9 @@ public class CircuitoResource {
 	public ResponseEntity<CircuitoDTO> update(@Valid @RequestBody CircuitoDTO objDto) {
 		Circuito obj = service.fromDTO(objDto);
 		obj = service.update(obj);
+		
+		service.interrompeEspera(obj);
+		
 		return ResponseEntity.ok().body(objDto);
 	}
 }

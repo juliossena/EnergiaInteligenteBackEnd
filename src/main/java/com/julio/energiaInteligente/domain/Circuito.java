@@ -39,6 +39,7 @@ public class Circuito implements Serializable {
 	@OneToMany(mappedBy = "circuito")
 	private List<Medicao> medicoes = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "circuito")
 	private List<Programacao> programacoes = new ArrayList<>();
 
