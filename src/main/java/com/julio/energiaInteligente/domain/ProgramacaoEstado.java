@@ -12,11 +12,11 @@ public class ProgramacaoEstado extends Programacao {
 
 	private Integer tipoEstado;
 
-	public TipoEstado getTipoExcedente() {
+	public TipoEstado getTipoEstado() {
 		return TipoEstado.toEnum(tipoEstado);
 	}
 
-	public void setTipoExcedente(TipoEstado tipoEstado) {
+	public void setTipoEstado(TipoEstado tipoEstado) {
 		this.tipoEstado = tipoEstado.getCod();
 	}
 

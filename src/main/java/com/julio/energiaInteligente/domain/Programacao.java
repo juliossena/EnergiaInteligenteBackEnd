@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.julio.energiaInteligente.domain.enums.TipoProgramacao;
 
 @Entity
@@ -27,7 +29,7 @@ public class Programacao implements Serializable {
 	private Integer tipoProgramacao;
 	private String nome;
 
-	@JsonIgnore
+	@JsonInclude(value = Include.NON_NULL)
 	@ManyToOne
 	@JoinColumn(name = "circuito_id")
 	private Circuito circuito;
