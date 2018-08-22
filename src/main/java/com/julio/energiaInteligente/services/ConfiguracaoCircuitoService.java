@@ -35,6 +35,13 @@ public class ConfiguracaoCircuitoService {
 		newObj.setSsid(obj.getSsid());
 		newObj.setTempoAtualizacao(obj.getTempoAtualizacao());
 	}
+	
+	public ConfiguracaoCircuito insert(ConfiguracaoCircuito obj) {
+		obj.setId(null);
+
+		obj = repo.save(obj);
+		return obj;
+	}
 
 
 }

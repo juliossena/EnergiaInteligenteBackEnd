@@ -19,6 +19,7 @@ import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.dto.CircuitoDTO;
 import com.julio.energiaInteligente.response.CircuitoResponse;
 import com.julio.energiaInteligente.services.CircuitoService;
+import com.julio.energiaInteligente.services.ConfiguracaoCircuitoService;
 
 @RestController
 @RequestMapping(value = "/circuito")
@@ -26,6 +27,9 @@ public class CircuitoResource {
 
 	@Autowired
 	private CircuitoService service;
+	
+	@Autowired
+	private ConfiguracaoCircuitoService configuracaoCircuitoService;
 
 	@Autowired
 	private BCryptPasswordEncoder pe;
@@ -40,6 +44,7 @@ public class CircuitoResource {
 	@RequestMapping(value = "{idUsuario}", method = RequestMethod.POST)
 	public ResponseEntity<Circuito> insert(@Valid @RequestBody Circuito obj, @PathVariable Integer idUsuario) {
 		obj.setToken(pe.encode(obj.getToken()));
+		obj.setConfiguracaoCircuito(configuracaoCircuitoService.insert(obj.getConfiguracaoCircuito()));
 		obj = service.insert(obj, idUsuario);
 
 		return ResponseEntity.ok().body(obj);
