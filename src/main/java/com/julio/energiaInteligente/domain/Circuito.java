@@ -35,7 +35,6 @@ public class Circuito implements Serializable {
 	@JoinColumn(name = "configuracao_id")
 	private ConfiguracaoCircuito configuracaoCircuito;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "circuito")
 	private List<Medicao> medicoes = new ArrayList<>();
 
