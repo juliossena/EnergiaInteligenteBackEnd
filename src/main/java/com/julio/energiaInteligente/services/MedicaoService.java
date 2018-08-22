@@ -32,6 +32,10 @@ public class MedicaoService {
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Medicao.class.getName()));
 	}
+	
+	public float findPico(Date inicio, Date termino, Integer idCircuito) {
+		return repo.findPico(idCircuito);
+	}
 
 	public List<Medicao> search(Integer id) {
 		return repo.findFirst1ByCircuito_idOrderByHorarioDesc(id).stream()
