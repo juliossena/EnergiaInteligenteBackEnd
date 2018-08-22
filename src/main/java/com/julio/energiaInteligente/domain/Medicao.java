@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -21,7 +22,8 @@ public class Medicao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@JsonInclude(value = Include.NON_NULL)
+//	@JsonInclude(value = Include.NON_NULL)
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "circuito_id")
 	private Circuito circuito;
