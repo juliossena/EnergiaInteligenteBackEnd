@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -25,13 +23,13 @@ public class Circuito implements Serializable {
 	private Integer id;
 
 	@JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "CircuitoUsuario", joinColumns = @JoinColumn(name = "circuito_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-	private List<Usuario> usuario = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
 
 	private String token;
 	private String nome;
-	private Boolean ligado;
+	private boolean ligado;
 
 	@ManyToOne
 	@JoinColumn(name = "configuracao_id")
@@ -48,29 +46,25 @@ public class Circuito implements Serializable {
 
 	}
 
-	public Circuito(Integer id, Usuario usuario, String token, String nome, Boolean ligado,
+	public Circuito(Integer id, Usuario usuario, String token, String nome, boolean ligado,
 			ConfiguracaoCircuito configuracaoCircuito) {
 		super();
 		this.id = id;
-		this.usuario.add(usuario);
+		this.usuario = usuario;
 		this.token = token;
 		this.nome = nome;
 		this.ligado = ligado;
 		this.configuracaoCircuito = configuracaoCircuito;
 	}
 
-	public List<Usuario> getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(List<Usuario> usuario) {
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 	
-	public void addUsuario(Usuario usuario) {
-		this.usuario.add(usuario);
-	}
-
 	public Integer getId() {
 		return id;
 	}
@@ -95,11 +89,11 @@ public class Circuito implements Serializable {
 		this.nome = nome;
 	}
 
-	public Boolean getLigado() {
+	public boolean getLigado() {
 		return ligado;
 	}
 
-	public void setLigado(Boolean ligado) {
+	public void setLigado(boolean ligado) {
 		this.ligado = ligado;
 	}
 

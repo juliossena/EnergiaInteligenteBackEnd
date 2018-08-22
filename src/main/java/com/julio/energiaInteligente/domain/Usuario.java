@@ -15,7 +15,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.julio.energiaInteligente.domain.enums.Perfil;
 
@@ -34,7 +34,7 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String cpf;
 
-	@ManyToMany(mappedBy = "usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Circuito> circuito = new ArrayList<>();
 
 	@ElementCollection(fetch = FetchType.EAGER)

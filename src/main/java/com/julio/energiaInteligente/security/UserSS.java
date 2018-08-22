@@ -22,8 +22,9 @@ public class UserSS implements UserDetails {
 
 	}
 
-	public UserSS(String email, String senha, Set<Perfil> perfis) {
+	public UserSS(Integer id, String email, String senha, Set<Perfil> perfis) {
 		super();
+		this.id = id;
 		this.email = email;
 		this.senha = senha;
 		this.authorities = perfis.stream().map(x -> new SimpleGrantedAuthority(x.getDescricao())).collect(Collectors.toList());

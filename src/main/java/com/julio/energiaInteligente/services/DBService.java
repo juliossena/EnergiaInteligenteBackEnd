@@ -34,7 +34,6 @@ public class DBService {
 		ConfiguracaoCircuito confCir = new ConfiguracaoCircuito(null, "123", "123", 15, 5);
 		
 		Circuito circuito = new Circuito(null, user, pe.encode("haithaibiriou"), "circuito 1", true, confCir);
-		circuito.addUsuario(user);
 		
 		configuracaoCircuitoRepository.saveAll(Arrays.asList(confCir));
 		usuarioRepository.saveAll(Arrays.asList(user));
