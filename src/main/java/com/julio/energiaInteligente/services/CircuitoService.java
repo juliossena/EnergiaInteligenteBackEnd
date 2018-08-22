@@ -23,6 +23,9 @@ public class CircuitoService {
 
 	@Autowired
 	private MedicaoService medicaoService;
+	
+	@Autowired
+	private UsuarioService usuarioService;
 
 	private static Map<Integer, Boolean> medicaoProcessamento;
 	private Circuito circuito;
@@ -36,7 +39,9 @@ public class CircuitoService {
 
 	public Circuito insert(Circuito obj) {
 		obj.setId(null);
+		UserSS user = UserService.authenticated();
 
+		obj.setUsuario(usuarioService.find(user.getId()));
 		obj = repo.save(obj);
 		return obj;
 	}

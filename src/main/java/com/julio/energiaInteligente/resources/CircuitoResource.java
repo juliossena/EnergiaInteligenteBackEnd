@@ -39,8 +39,9 @@ public class CircuitoResource {
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Circuito> insert(@Valid @RequestBody Circuito obj) {
-		obj = service.insert(obj);
 		obj.setToken(pe.encode(obj.getToken()));
+		obj = service.insert(obj);
+		
 		return ResponseEntity.ok().body(obj);
 	}
 	
