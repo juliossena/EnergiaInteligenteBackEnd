@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.julio.energiaInteligente.domain.Circuito;
+import com.julio.energiaInteligente.response.CircuitoResponse;
 import com.julio.energiaInteligente.response.HistoricoResponse;
 import com.julio.energiaInteligente.services.CircuitoService;
 import com.julio.energiaInteligente.services.MedicaoService;
@@ -27,16 +28,34 @@ public class HistoricoResource {
 	private MedicaoService medicaoService;
 	
 	@RequestMapping(value = "inicio={dataInicial}&final={dataFinal}", method = RequestMethod.GET)
-	public ResponseEntity<List<HistoricoResponse>> find(@PathVariable Long dataInicial, @PathVariable Long dataFinal) {
-		List<HistoricoResponse> retorno = new ArrayList<>();
+	public ResponseEntity<List<CircuitoResponse>> find(@PathVariable Long dataInicial, @PathVariable Long dataFinal) {
+		List<CircuitoResponse> retorno = new ArrayList<>();
 		
 		List<Circuito> obj = circuitoService.findAll();
 		
 		for(Circuito circuito: obj) {
 			HistoricoResponse historicoResponse = new HistoricoResponse();
-			historicoResponse.setConsumoPico(medicaoService.findPico(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
+			System.out.println("aqui" + new Date().toString() + new Date().getTime());
+			System.out.println("aqui" + new Date(dataFinal).toString());
+			try {
+				historicoResponse.setConsumoPico(medicaoService.findPico(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
+				historicoResponse.setMediaConsumo(medicaoService.findAVG(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
+				historicoResponse.setHorarioPico(medicaoService.findHorarioPico(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
+				historicoResponse.setConsumoTotal(medicaoService.findConsumoTotal(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
+				historicoResponse.setConsumoReais(historicoResponse.getConsumoTotal() * circuito.getConfiguracaoCircuito().getCustoPorW());
+			}catch (Exception e) {
+				historicoResponse.setConsumoPico(0);
+				historicoResponse.setMediaConsumo(0);
+				historicoResponse.setHorarioPico(null);
+				historicoResponse.setConsumoTotal(0);
+				historicoResponse.setConsumoReais(0);
+			}
 			
-			retorno.add(historicoResponse);
+			
+			circuito.setMedicoes(null);
+			CircuitoResponse circuitoResponse = new CircuitoResponse(circuito);
+			circuitoResponse.setHistoricoResponse(historicoResponse);
+			retorno.add(circuitoResponse);
 		}
 		
 		return ResponseEntity.ok().body(retorno);

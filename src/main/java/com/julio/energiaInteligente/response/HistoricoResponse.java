@@ -5,8 +5,6 @@ import java.util.Date;
 public class HistoricoResponse {
 
 	private float consumoTotal;
-	private Integer tempoLigado;
-	private Integer tempoDesligado;
 	private float mediaConsumo;
 	private Date horarioPico;
 	private float consumoPico;
@@ -16,12 +14,10 @@ public class HistoricoResponse {
 
 	}
 
-	public HistoricoResponse(float consumoTotal, Integer tempoLigado, Integer tempoDesligado, float mediaConsumo,
-			Date horarioPico, float consumoPico, float consumoReais) {
+	public HistoricoResponse(float consumoTotal, float mediaConsumo, Date horarioPico, float consumoPico,
+			float consumoReais) {
 		super();
 		this.consumoTotal = consumoTotal;
-		this.tempoLigado = tempoLigado;
-		this.tempoDesligado = tempoDesligado;
 		this.mediaConsumo = mediaConsumo;
 		this.horarioPico = horarioPico;
 		this.consumoPico = consumoPico;
@@ -34,22 +30,6 @@ public class HistoricoResponse {
 
 	public void setConsumoTotal(float consumoTotal) {
 		this.consumoTotal = consumoTotal;
-	}
-
-	public Integer getTempoLigado() {
-		return tempoLigado;
-	}
-
-	public void setTempoLigado(Integer tempoLigado) {
-		this.tempoLigado = tempoLigado;
-	}
-
-	public Integer getTempoDesligado() {
-		return tempoDesligado;
-	}
-
-	public void setTempoDesligado(Integer tempoDesligado) {
-		this.tempoDesligado = tempoDesligado;
 	}
 
 	public float getMediaConsumo() {

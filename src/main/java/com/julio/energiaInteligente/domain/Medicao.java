@@ -30,12 +30,14 @@ public class Medicao implements Serializable {
 	private Float corrente;
 	private Float potencia;
 	private Date horario;
+	private Double consumido;
 
 	public Medicao() {
 
 	}
 
-	public Medicao(Integer id, Circuito circuito, Float tensao, Float corrente, Float potencia, Date horario) {
+	public Medicao(Integer id, Circuito circuito, Float tensao, Float corrente, Float potencia, Date horario,
+			Double consumido) {
 		super();
 		this.id = id;
 		this.circuito = circuito;
@@ -43,6 +45,7 @@ public class Medicao implements Serializable {
 		this.corrente = corrente;
 		this.potencia = potencia;
 		this.horario = horario;
+		this.consumido = consumido;
 	}
 
 	public Integer getId() {
@@ -91,6 +94,14 @@ public class Medicao implements Serializable {
 
 	public void setHorario(Date horario) {
 		this.horario = horario;
+	}
+
+	public Double getConsumido() {
+		return consumido;
+	}
+
+	public void setConsumido(Double consumido) {
+		this.consumido = consumido;
 	}
 
 	@Override

@@ -33,8 +33,20 @@ public class MedicaoService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Medicao.class.getName()));
 	}
 	
-	public float findPico(Date inicio, Date termino, Integer idCircuito) {
-		return repo.findPico(idCircuito);
+	public float findPico(Date inicio, Date termino, Integer idCircuito) throws Exception {
+		return repo.findPico(idCircuito, inicio, termino);
+	}
+	
+	public float findAVG(Date inicio, Date termino, Integer idCircuito) throws Exception {
+		return repo.findAVG(idCircuito, inicio, termino);
+	}
+	
+	public Date findHorarioPico(Date inicio, Date termino, Integer circuito_id) throws Exception {
+		return repo.findObjetoPico(circuito_id, inicio, termino).get(0).getHorario();
+	}
+	
+	public float findConsumoTotal(Date inicio, Date termino, Integer idCircuito) throws Exception {
+		return repo.findConsumoTotal(idCircuito, inicio, termino);
 	}
 
 	public List<Medicao> search(Integer id) {
@@ -52,6 +64,8 @@ public class MedicaoService {
 
 		String tokenEnviada = obj.getCircuito().getToken();
 		obj.setCircuito(circuitoService.find(obj.getCircuito().getId()));
+		
+		obj.setConsumido(obj.getPotencia() / (3600.00 / obj.getCircuito().getConfiguracaoCircuito().getTempoAtualizacao()));
 
 		if (!pe.matches(tokenEnviada, obj.getCircuito().getToken())) {
 			throw new AuthorizationException("Acesso negado");
