@@ -44,6 +44,11 @@ public class UsuarioService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Usuario.class.getName()));
 	}
 	
+	public Usuario findByEmail(String email) {
+		Usuario obj = repo.findByEmail(email);
+		return obj;
+	}
+	
 	@Transactional
 	public Usuario insert(Usuario obj) {
 		obj.setId(null);

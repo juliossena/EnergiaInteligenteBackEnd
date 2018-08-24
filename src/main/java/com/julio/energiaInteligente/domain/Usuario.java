@@ -37,6 +37,9 @@ public class Usuario implements Serializable {
 	@OneToMany(mappedBy = "usuario")
 	private List<Circuito> circuito = new ArrayList<>();
 
+	@OneToMany(mappedBy = "usuario")
+	private List<Dispositivos> dispositivos = new ArrayList<>();
+
 	@ElementCollection(fetch = FetchType.EAGER)
 	@CollectionTable(name = "PERFIS")
 	private Set<Integer> perfis = new HashSet<>();
@@ -111,7 +114,7 @@ public class Usuario implements Serializable {
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
 	}
-	
+
 	public void addCircuito(Circuito circuito) {
 		this.circuito.add(circuito);
 	}
@@ -122,6 +125,14 @@ public class Usuario implements Serializable {
 
 	public void setCircuito(List<Circuito> circuito) {
 		this.circuito = circuito;
+	}
+
+	public List<Dispositivos> getDispositivos() {
+		return dispositivos;
+	}
+
+	public void setDispositivos(List<Dispositivos> dispositivos) {
+		this.dispositivos = dispositivos;
 	}
 
 	@Override
