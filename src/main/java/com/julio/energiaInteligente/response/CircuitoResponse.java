@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.julio.energiaInteligente.domain.Circuito;
+import com.julio.energiaInteligente.domain.ConfiguracaoCircuito;
 import com.julio.energiaInteligente.domain.Medicao;
 
 public class CircuitoResponse {
@@ -13,6 +14,7 @@ public class CircuitoResponse {
 	private boolean ligado;
 	private List<Medicao> medicoes = new ArrayList<>();
 	private HistoricoResponse historicoResponse;
+	private ConfiguracaoCircuito configuracaoCircuito;
 
 	public CircuitoResponse() {
 
@@ -23,6 +25,7 @@ public class CircuitoResponse {
 		this.nome = circuito.getNome();
 		this.ligado = circuito.getLigado();
 		this.medicoes = circuito.getMedicoes();
+		this.configuracaoCircuito = circuito.getConfiguracaoCircuito();
 	}
 
 	public Integer getId() {
@@ -63,6 +66,14 @@ public class CircuitoResponse {
 
 	public void setHistoricoResponse(HistoricoResponse historicoResponse) {
 		this.historicoResponse = historicoResponse;
+	}
+
+	public ConfiguracaoCircuito getConfiguracaoCircuito() {
+		return configuracaoCircuito;
+	}
+
+	public void setConfiguracaoCircuito(ConfiguracaoCircuito configuracaoCircuito) {
+		this.configuracaoCircuito = configuracaoCircuito;
 	}
 
 }
