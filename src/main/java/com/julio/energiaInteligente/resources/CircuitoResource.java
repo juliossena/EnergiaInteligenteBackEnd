@@ -61,12 +61,12 @@ public class CircuitoResource {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<CircuitoDTO> update(@Valid @RequestBody CircuitoDTO objDto) {
+	public ResponseEntity<Circuito> update(@Valid @RequestBody CircuitoDTO objDto) {
 		Circuito obj = service.fromDTO(objDto);
 		obj = service.update(obj);
 
 		service.interrompeEspera(obj);
 
-		return ResponseEntity.ok().body(objDto);
+		return ResponseEntity.ok().body(obj);
 	}
 }
