@@ -1,5 +1,6 @@
 package com.julio.energiaInteligente.resources;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.domain.Medicao;
+import com.julio.energiaInteligente.request.FirebaseRequest;
 import com.julio.energiaInteligente.services.CircuitoService;
 import com.julio.energiaInteligente.services.MedicaoService;
 
@@ -43,9 +45,17 @@ public class MedicaoResource {
 	
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Circuito> insert(@Valid @RequestBody Medicao obj) throws InterruptedException {
+		long tempInicial = System.currentTimeMillis();
+		
 		obj = service.insert(obj);
 		
-		Circuito circuito = circuitoService.aguarda(obj);
+		try {
+			FirebaseRequest.enviarMensagens("titulo teste", "mensagem teste", obj.getCircuito().getUsuario().getDispositivos());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		Circuito circuito = circuitoService.aguarda(obj, tempInicial);
 		
 		return ResponseEntity.ok().body(circuito);
 	}

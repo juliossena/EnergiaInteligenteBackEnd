@@ -10,6 +10,7 @@ import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.domain.Dispositivos;
 import com.julio.energiaInteligente.domain.Usuario;
 import com.julio.energiaInteligente.repositories.DispositivosRepository;
+import com.julio.energiaInteligente.repositories.UsuarioRepository;
 import com.julio.energiaInteligente.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -17,6 +18,9 @@ public class DispositivosService {
 
 	@Autowired
 	private DispositivosRepository repo;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 	
 	public Dispositivos find(Integer id) {
 		Optional<Dispositivos> obj = repo.findById(id);
@@ -32,23 +36,30 @@ public class DispositivosService {
 				"Objeto não encontrado! " + Dispositivos.class.getName()));
 	}
 
-	public Dispositivos insert(Dispositivos obj, Usuario usuario) {
+	public Dispositivos insert(Dispositivos obj, String emailUsuario) {
 		obj.setId(null);
+		obj.setUsuario(usuarioRepository.findByEmail(emailUsuario));
 		obj.setUltimoAcesso(new Date());
 		obj = repo.save(obj);
 		return obj;
 	}
+	
+	public void disableDispositivo(String idDispositivo) {
+		Optional<Dispositivos> newObj = repo.findByIdDispositivo(idDispositivo);
+		newObj.get().setAtivo(false);
+		repo.save(newObj.get());
+	}
 
-	public Dispositivos update(Dispositivos obj) {
+	public Dispositivos update(Dispositivos obj, String emailUsuario) {
 		Dispositivos newObj = find(obj.getId());
-		updateData(newObj, obj);
+		updateData(newObj, usuarioRepository.findByEmail(emailUsuario));
 		return repo.save(newObj);
 	}
 
-	private void updateData(Dispositivos newObj, Dispositivos obj) {
+	private void updateData(Dispositivos newObj, Usuario usuario) {
 		newObj.setAtivo(true);
 		newObj.setUltimoAcesso(new Date());
-		newObj.setUsuario(obj.getUsuario());
+		newObj.setUsuario(usuario);
 	}
 
 }

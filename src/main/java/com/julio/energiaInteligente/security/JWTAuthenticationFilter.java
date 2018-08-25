@@ -8,7 +8,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,27 +17,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.julio.energiaInteligente.domain.Dispositivos;
-import com.julio.energiaInteligente.domain.Usuario;
 import com.julio.energiaInteligente.dto.CredenciaisDTO;
 import com.julio.energiaInteligente.response.LoginResponse;
 import com.julio.energiaInteligente.services.DispositivosService;
-import com.julio.energiaInteligente.services.UsuarioService;
 import com.julio.energiaInteligente.services.exceptions.ObjectNotFoundException;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
 	private JWTUtil jwtUtil;
-	
-	@Autowired
 	private DispositivosService dispositivosService;
 	
-	@Autowired
-	private UsuarioService usuarioService;
-
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, DispositivosService dispositivosService) {
 		this.authenticationManager = authenticationManager;
 		this.jwtUtil = jwtUtil;
+		this.dispositivosService = dispositivosService;
 	}
 
 	@Override
@@ -57,11 +50,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			if (auth.isAuthenticated()) {
 				try {
 					Dispositivos dispositivos = dispositivosService.findIdCelular(creds.getIdCelular());
-					dispositivosService.update(dispositivos);
+					dispositivosService.update(dispositivos, creds.getEmail());
 				} catch (ObjectNotFoundException e) {
-					Usuario user = usuarioService.findByEmail(creds.getEmail());
-					Dispositivos dispositivos = new Dispositivos(null, creds.getIdCelular(), true, null, user);
-					dispositivosService.insert(dispositivos, user);
+					Dispositivos dispositivos = new Dispositivos(null, creds.getIdCelular(), true, null, null);
+					dispositivosService.insert(dispositivos, creds.getEmail());
 				}
 			}
 			return auth;

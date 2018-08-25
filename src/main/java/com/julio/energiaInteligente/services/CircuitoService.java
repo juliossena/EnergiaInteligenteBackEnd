@@ -87,11 +87,9 @@ public class CircuitoService {
 		medicaoProcessamento.put(medicao.getCircuito().getId(), false);
 	}
 
-	public Circuito aguarda(Medicao medicao) {
+	public Circuito aguarda(Medicao medicao, Long tempInicial) {
 		this.circuito = medicao.getCircuito();
 		iniciarProcessamentoMedicao(medicao);
-
-		long tempInicial = System.currentTimeMillis();
 
 		while (System.currentTimeMillis()
 				- tempInicial <= (medicao.getCircuito().getConfiguracaoCircuito().getTempoAtualizacao() * 1000)) {
