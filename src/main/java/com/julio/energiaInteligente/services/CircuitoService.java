@@ -75,8 +75,9 @@ public class CircuitoService {
 
 	public void interrompeEspera(Circuito circuito) {
 		this.circuito = circuito;
-		medicaoProcessamento.put(circuito.getId(), true);
-
+		if (medicaoProcessamento != null) {
+			medicaoProcessamento.put(circuito.getId(), true);
+		}
 	}
 
 	public void iniciarProcessamentoMedicao(Medicao medicao) {
