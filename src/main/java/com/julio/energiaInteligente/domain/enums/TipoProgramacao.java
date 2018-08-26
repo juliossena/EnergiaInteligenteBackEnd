@@ -2,9 +2,9 @@ package com.julio.energiaInteligente.domain.enums;
 
 public enum TipoProgramacao {
 
-	ALERTA_EXCEDENTE(1, "Alerta quando excede ou fica inferior à uma potencia determinada"), 
-	ALERTA_ESTADO(2, "Alerta quando há uma mudança de estado"), 
-	MUDANCA(3, "Programacao de mudanca de estado");
+	ALERTA_EXCEDENTE(0, "Alerta quando excede ou fica inferior à uma potencia determinada"), 
+	ALERTA_ESTADO(1, "Alerta quando há uma mudança de estado"), 
+	MUDANCA(2, "Programacao de mudanca de estado");
 
 	private int cod;
 	private String descricao;

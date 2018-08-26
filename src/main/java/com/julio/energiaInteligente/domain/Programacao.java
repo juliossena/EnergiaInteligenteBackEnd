@@ -11,14 +11,13 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.julio.energiaInteligente.domain.enums.TipoProgramacao;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public class Programacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +27,7 @@ public class Programacao implements Serializable {
 	private Integer tipoProgramacao;
 	private String nome;
 
-	@JsonInclude(value = Include.NON_NULL)
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "circuito_id")
 	private Circuito circuito;

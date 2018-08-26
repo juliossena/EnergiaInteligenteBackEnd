@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.domain.Programacao;
 import com.julio.energiaInteligente.services.ProgramacaoService;
 
@@ -28,8 +29,11 @@ public class ProgramacaoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Programacao> insert(@Valid @RequestBody Programacao obj) {
+	@RequestMapping(value = "{idCircuito}", method = RequestMethod.POST)
+	public ResponseEntity<Programacao> insert(@Valid @RequestBody Programacao obj, @PathVariable Integer idCircuito) {
+		Circuito circuito = new Circuito();
+		circuito.setId(idCircuito);
+		obj.setCircuito(circuito);
 		obj = service.insert(obj);
 
 		return ResponseEntity.ok().body(obj);
