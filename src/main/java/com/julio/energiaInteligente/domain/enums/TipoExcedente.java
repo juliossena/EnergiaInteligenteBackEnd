@@ -2,8 +2,8 @@ package com.julio.energiaInteligente.domain.enums;
 
 public enum TipoExcedente {
 
-	MAIOR(1, "Vai haver um alerta quando a potencia for maior que o especificado"),
-	MENOR(2, "Vai haver um alerta quando a potencia for menor que o especificado");
+	MAIOR(0, "Vai haver um alerta quando a potencia for maior que o especificado"),
+	MENOR(1, "Vai haver um alerta quando a potencia for menor que o especificado");
 
 	private int cod;
 	private String descricao;
