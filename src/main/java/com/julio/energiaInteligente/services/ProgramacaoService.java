@@ -8,6 +8,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.julio.energiaInteligente.domain.Programacao;
+import com.julio.energiaInteligente.domain.ProgramacaoMudanca;
+import com.julio.energiaInteligente.domain.ProgramacaoMudancaRepetir;
+import com.julio.energiaInteligente.repositories.ProgramacaoRepetirRepository;
 import com.julio.energiaInteligente.repositories.ProgramacaoRepository;
 import com.julio.energiaInteligente.services.exceptions.DataIntegrityException;
 import com.julio.energiaInteligente.services.exceptions.ObjectNotFoundException;
@@ -17,6 +20,9 @@ public class ProgramacaoService {
 
 	@Autowired
 	private ProgramacaoRepository repo;
+	
+	@Autowired
+	private ProgramacaoRepetirRepository programacaoRepetirRepository;
 	
 	@Autowired
 	private CircuitoService circuitoService;
@@ -36,11 +42,24 @@ public class ProgramacaoService {
 	
 	public Programacao insert(Programacao obj) {
 		obj.setId(null);
-
 		
 		obj.setCircuito(circuitoService.find(obj.getCircuito().getId()));
 
 		obj = repo.save(obj);
+		return obj;
+	}
+	
+	public ProgramacaoMudanca insertMudanca(ProgramacaoMudanca obj) {
+		obj.setId(null);
+		
+		obj.setCircuito(circuitoService.find(obj.getCircuito().getId()));
+		obj = repo.save(obj);
+		
+		for (ProgramacaoMudancaRepetir programacaoMudancaRepetir : obj.getRepeticoes()) {
+			programacaoMudancaRepetir.setProgramacaoMudanca(obj);
+			programacaoRepetirRepository.save(programacaoMudancaRepetir);
+		}
+		
 		return obj;
 	}
 	

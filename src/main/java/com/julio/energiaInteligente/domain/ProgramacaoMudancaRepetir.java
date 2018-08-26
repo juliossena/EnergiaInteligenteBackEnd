@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.julio.energiaInteligente.domain.enums.DiaSemana;
 
 @Entity
@@ -20,6 +21,7 @@ public class ProgramacaoMudancaRepetir implements Serializable {
 	private Integer id;
 	private Integer diaRepetir;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "programacao_mudanca_id")
 	private ProgramacaoMudanca programacaoMudanca;
