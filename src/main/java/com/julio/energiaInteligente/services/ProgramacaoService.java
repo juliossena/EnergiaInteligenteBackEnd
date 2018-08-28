@@ -87,6 +87,13 @@ public class ProgramacaoService {
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
+	
+	private Programacao updateUltimaRequisicao(Programacao obj) {
+		Programacao newObj = find(obj.getId());
+		newObj.setUltimaRequisicao(new Date());
+		newObj = repo.save(newObj);
+		return newObj;
+	}
 
 	private void updateData(Programacao newObj, Programacao obj) {
 		newObj.setNome(obj.getNome());
@@ -95,12 +102,12 @@ public class ProgramacaoService {
 	public Circuito verificaAlert(Medicao medicao) {
 		Circuito circuito = medicao.getCircuito();
 		List<Programacao> obj = repo.findByCircuito_id(medicao.getCircuito().getId());
-
 		for (Programacao programacao : obj) {
 			// Verifica se a programacao esta ativa
 			if (programacao.isLigado()) {
 				// Verifica se foi feito a solicitacao recentemente
-				if (programacao.getUltimaRequisicao().getTime()
+				if (programacao.getUltimaRequisicao() == null || 
+						programacao.getUltimaRequisicao().getTime()
 						+ medicao.getCircuito().getConfiguracaoCircuito().getEsperaRepeticao() > new Date().getTime()) {
 
 					if (programacao instanceof ProgramacaoExcedente) {
@@ -125,13 +132,13 @@ public class ProgramacaoService {
 							GregorianCalendar gc = new GregorianCalendar();
 				            gc.setTime(new Date());
 				            int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
-				            System.out.println("aqui" + diaDaSemana);
 						} else {
 							// Verifica se passou o horario expecificado no BD
 							if (new Date().getTime() > programacaoMudanca.getHorario().getTime()) {
 								if (new Date().getTime() < (programacaoMudanca.getHorario().getTime()
 										+ (medicao.getCircuito().getConfiguracaoCircuito().getTempoAtualizacao()
 												* 3000))) {
+									programacao = updateUltimaRequisicao(programacao);
 									if (programacaoMudanca.getTipoEstado() == TipoEstado.LIGADO) {
 										circuito = circuitoService.ligarDesligarCircuito(medicao.getCircuito(), true);
 									} else if (programacaoMudanca.getTipoEstado() == TipoEstado.DESLIGADO) {
