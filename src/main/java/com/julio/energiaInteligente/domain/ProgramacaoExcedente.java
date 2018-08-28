@@ -1,5 +1,7 @@
 package com.julio.energiaInteligente.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -12,6 +14,7 @@ public class ProgramacaoExcedente extends Programacao {
 
 	private Integer tipoExcedente;
 	private Float potencia;
+	private Date ultimoAlerta;
 
 	public TipoExcedente getTipoExcedente() {
 		return TipoExcedente.toEnum(tipoExcedente);
@@ -27,6 +30,14 @@ public class ProgramacaoExcedente extends Programacao {
 
 	public void setPotencia(Float potencia) {
 		this.potencia = potencia;
+	}
+
+	public Date getUltimoAlerta() {
+		return ultimoAlerta;
+	}
+
+	public void setUltimoAlerta(Date ultimoAlerta) {
+		this.ultimoAlerta = ultimoAlerta;
 	}
 
 }

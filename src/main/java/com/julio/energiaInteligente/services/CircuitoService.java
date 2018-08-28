@@ -1,5 +1,6 @@
 package com.julio.energiaInteligente.services;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +59,14 @@ public class CircuitoService {
 
 		for (Circuito circuito : circuitos) {
 			circuito.setMedicoes(medicaoService.search(circuito.getId()));
+			
+			Long tempoDelay = new Date().getTime() - (circuito.getConfiguracaoCircuito().getTempoAtualizacao() * 3000);
+			if(circuito.getMedicoes() != null && circuito.getMedicoes().size() > 0) {
+				if(circuito.getMedicoes().get(0).getHorario().getTime() < tempoDelay) {
+					circuito.getMedicoes().get(0).setPotencia((float) 0);
+				}
+			}
+			
 		}
 
 		return circuitos;
@@ -111,6 +120,11 @@ public class CircuitoService {
 	private void updateData(Circuito newObj, Circuito obj) {
 		newObj.setNome(obj.getNome());
 		newObj.setLigado(obj.getLigado());
+	}
+	
+	public Circuito ligarDesligarCircuito(Circuito obj, boolean ligado) {
+		obj.setLigado(ligado);
+		return update(obj);
 	}
 
 }

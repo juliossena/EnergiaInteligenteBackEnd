@@ -1,10 +1,12 @@
 package com.julio.energiaInteligente.request;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClientBuilder;
 
 import com.google.gson.Gson;
 import com.julio.energiaInteligente.domain.Dispositivos;
@@ -20,23 +22,18 @@ public class FirebaseRequest {
 
 		for (Dispositivos dispositivo : dispositivos) {
 			if (dispositivo.isAtivo()) {
-				URL url = new URL(endpoint);
-				HttpURLConnection con = (HttpURLConnection) url.openConnection();
-
-				con.setRequestMethod("POST");
-				con.setRequestProperty("Content-type", "application/json");
-				con.setRequestProperty("Authorization", authorization);
-				con.setDoInput(true);
-				con.setDoOutput(true);
-
+				String postUrl = endpoint;
 				Gson gson = new Gson();
-
 				String json = gson.toJson(new FirebaseRequestDTO(mensagem, titulo, dispositivo.getIdDispositivo()));
-
-				OutputStreamWriter wr = null;
-				wr = new OutputStreamWriter(con.getOutputStream());
-				wr.write(json);
-				wr.flush();
+				
+				HttpClient httpClient = HttpClientBuilder.create().build();
+				HttpPost post = new HttpPost(postUrl);
+				StringEntity postingString = new StringEntity(json);// gson.tojson() converts your pojo to json
+				post.setEntity(postingString);
+				post.setHeader("Content-type", "application/json");
+				post.setHeader("Authorization", authorization);
+				/*HttpResponse response = */
+				httpClient.execute(post);
 			}
 		}
 	}

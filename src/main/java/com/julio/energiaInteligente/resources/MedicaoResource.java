@@ -1,6 +1,5 @@
 package com.julio.energiaInteligente.resources;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.julio.energiaInteligente.domain.Circuito;
 import com.julio.energiaInteligente.domain.Medicao;
-import com.julio.energiaInteligente.request.FirebaseRequest;
 import com.julio.energiaInteligente.services.CircuitoService;
 import com.julio.energiaInteligente.services.MedicaoService;
+import com.julio.energiaInteligente.services.ProgramacaoService;
 
 
 @RestController
@@ -29,6 +28,9 @@ public class MedicaoResource {
 	
 	@Autowired
 	private CircuitoService circuitoService;
+	
+	@Autowired
+	private ProgramacaoService programacaoService;
 	
 	@RequestMapping(value = "{id}", method = RequestMethod.GET)
 	public ResponseEntity<Medicao> find(@PathVariable Integer id) {
@@ -49,13 +51,9 @@ public class MedicaoResource {
 		
 		obj = service.insert(obj);
 		
-		try {
-			FirebaseRequest.enviarMensagens("titulo teste", "mensagem teste", obj.getCircuito().getUsuario().getDispositivos());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Circuito circuito = programacaoService.verificaAlert(obj);
 		
-		Circuito circuito = circuitoService.aguarda(obj, tempInicial);
+		circuito = circuitoService.aguarda(obj, tempInicial);
 		
 		return ResponseEntity.ok().body(circuito);
 	}

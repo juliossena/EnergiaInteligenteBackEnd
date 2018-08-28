@@ -1,6 +1,7 @@
 package com.julio.energiaInteligente.domain;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +27,8 @@ public class Programacao implements Serializable {
 	private Integer id;
 	private Integer tipoProgramacao;
 	private String nome;
+	private boolean ligado;
+	private Date ultimaRequisicao;
 
 	@JsonIgnore
 	@ManyToOne
@@ -56,12 +59,28 @@ public class Programacao implements Serializable {
 		this.nome = nome;
 	}
 
+	public boolean isLigado() {
+		return ligado;
+	}
+
+	public void setLigado(boolean ligado) {
+		this.ligado = ligado;
+	}
+
 	public Circuito getCircuito() {
 		return circuito;
 	}
 
 	public void setCircuito(Circuito circuito) {
 		this.circuito = circuito;
+	}
+
+	public Date getUltimaRequisicao() {
+		return ultimaRequisicao;
+	}
+
+	public void setUltimaRequisicao(Date ultimaRequisicao) {
+		this.ultimaRequisicao = ultimaRequisicao;
 	}
 
 }

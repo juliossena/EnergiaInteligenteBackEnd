@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ConfiguracaoCircuito implements Serializable { 
+public class ConfiguracaoCircuito implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -18,6 +18,7 @@ public class ConfiguracaoCircuito implements Serializable {
 	private String senhaSsid;
 	private Integer tempoAtualizacao;
 	private float custoPorW;
+	private Long esperaRepeticao;
 
 	public ConfiguracaoCircuito() {
 
@@ -70,6 +71,14 @@ public class ConfiguracaoCircuito implements Serializable {
 
 	public void setCustoPorW(float custoPorW) {
 		this.custoPorW = custoPorW;
+	}
+
+	public Long getEsperaRepeticao() {
+		return esperaRepeticao;
+	}
+
+	public void setEsperaRepeticao(Long esperaRepeticao) {
+		this.esperaRepeticao = esperaRepeticao;
 	}
 
 }
