@@ -55,6 +55,8 @@ public class MedicaoResource {
 		
 		circuito = circuitoService.aguarda(obj, tempInicial);
 		
+		circuito.setProgramacoes(null);
+		
 		return ResponseEntity.ok().body(circuito);
 	}
 }
