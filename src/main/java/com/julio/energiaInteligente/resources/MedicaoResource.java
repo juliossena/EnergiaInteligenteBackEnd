@@ -38,10 +38,6 @@ public class MedicaoResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(value = "teste", method = RequestMethod.GET)
-	public void teste() {
-	}
-	
 	@RequestMapping(value = "last/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Medicao>> findLast(@PathVariable Integer id) {
 		List<Medicao> list = service.search(id);
