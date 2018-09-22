@@ -114,11 +114,13 @@ public class ProgramacaoService {
 						ProgramacaoExcedente programacaoExcedente = (ProgramacaoExcedente) programacao;
 						if (programacaoExcedente.getTipoExcedente() == TipoExcedente.MAIOR) {
 							if (medicao.getPotencia() >= programacaoExcedente.getPotencia()) {
+								updateUltimaRequisicao(programacao);
 								enviarMensagemFirebase("ATENÇÃO!", "Foi acionado um alerta por excesso de consumo!",
 										medicao.getCircuito().getUsuario().getDispositivos());
 							}
 						} else if (programacaoExcedente.getTipoExcedente() == TipoExcedente.MENOR) {
 							if (medicao.getPotencia() <= programacaoExcedente.getPotencia()) {
+								updateUltimaRequisicao(programacao);
 								enviarMensagemFirebase("ATENÇÃO!", "Foi acionado um alerta por falta de consumo!",
 										medicao.getCircuito().getUsuario().getDispositivos());
 							}
@@ -131,7 +133,6 @@ public class ProgramacaoService {
 
 							GregorianCalendar gc = new GregorianCalendar();
 				            gc.setTime(new Date());
-				            int diaDaSemana = gc.get(GregorianCalendar.DAY_OF_WEEK);
 						} else {
 							// Verifica se passou o horario expecificado no BD
 							if (new Date().getTime() > programacaoMudanca.getHorario().getTime()) {
