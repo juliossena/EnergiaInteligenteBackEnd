@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Circuito implements Serializable {
 	private ConfiguracaoCircuito configuracaoCircuito;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "circuito")
+	@OneToMany(mappedBy = "circuito", fetch = FetchType.LAZY)
 	private List<Medicao> medicoes = new ArrayList<>();
 
 	@OneToMany(mappedBy = "circuito")
