@@ -35,8 +35,6 @@ public class HistoricoResource {
 		
 		for(Circuito circuito: obj) {
 			HistoricoResponse historicoResponse = new HistoricoResponse();
-			System.out.println("aqui" + new Date().toString() + new Date().getTime());
-			System.out.println("aqui" + new Date(dataFinal).toString());
 			try {
 				historicoResponse.setConsumoPico(medicaoService.findPico(new Date(dataInicial), new Date(dataFinal), circuito.getId()));
 				historicoResponse.setMediaConsumo(medicaoService.findAVG(new Date(dataInicial), new Date(dataFinal), circuito.getId()));

@@ -1,5 +1,6 @@
 package com.julio.energiaInteligente.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -27,9 +28,10 @@ public class CircuitoService {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	private List<Circuito> circuitos = new ArrayList<>();
 
 	private static Map<Integer, Boolean> medicaoProcessamento;
-	private Circuito circuito;
 
 	public Circuito find(Integer id) {
 		Optional<Circuito> obj = repo.findById(id);
@@ -83,10 +85,32 @@ public class CircuitoService {
 	}
 
 	public void interrompeEspera(Circuito circuito) {
-		this.circuito = circuito;
+		insereCircuito(circuito);
 		if (medicaoProcessamento != null) {
 			medicaoProcessamento.put(circuito.getId(), true);
 		}
+	}
+	
+	private void insereCircuito(Circuito circuito) {
+		boolean existe = false;
+		for (int i = 0 ; i < this.circuitos.size() ; i++) {
+			if (this.circuitos.get(i).getId() == circuito.getId()) {
+				this.circuitos.set(i, circuito);
+				existe = true;
+			}
+		}
+		if (!existe) {
+			this.circuitos.add(circuito);
+		}
+	}
+	
+	private Circuito circuitoAtualizado(Circuito circuito) {
+		for (Circuito circuitoAtualizado : this.circuitos) {
+			if (circuitoAtualizado.getId() == circuito.getId()) {
+				return circuitoAtualizado;
+			}
+		}
+		return null;
 	}
 
 	public void iniciarProcessamentoMedicao(Medicao medicao) {
@@ -98,7 +122,7 @@ public class CircuitoService {
 	}
 
 	public Circuito aguarda(Medicao medicao, Long tempInicial) {
-		this.circuito = medicao.getCircuito();
+		insereCircuito(medicao.getCircuito());
 		iniciarProcessamentoMedicao(medicao);
 
 		while (System.currentTimeMillis()
@@ -113,7 +137,7 @@ public class CircuitoService {
 
 		medicaoProcessamento.remove(medicao.getId());
 
-		return this.circuito;
+		return circuitoAtualizado(medicao.getCircuito());
 
 	}
 
